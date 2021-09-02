@@ -13,7 +13,6 @@ Shader "Unlit/RadialBarShader"
 		_Glow("Glow", Float) = 0
 
 	}
-
 		SubShader
 		{
 			Tags {"Queue" = "Transparent" "IgnoreProjector" = "True" "RenderType" = "Transparent"}
@@ -54,6 +53,7 @@ Shader "Unlit/RadialBarShader"
 				float4 _Shadow;
 				float _BorderWidth;
 				float _Glow;
+				float _Flash;
 
 				v2f vert(appdata v)
 				{
@@ -74,32 +74,40 @@ Shader "Unlit/RadialBarShader"
 					float innerSqR = _InnerRadius * _InnerRadius;
 					float sqBorder = _BorderWidth * _BorderWidth;
 
-					
-
+					//If outside of bar, make transparent
 					if (sqR <= innerSqR - sqBorder || sqR > 0.25) {
 						col = float4(0, 0, 0, 0);
-					}
-
-					
+					}	
 					else {
+						//Render bar contents
 						float angle = atan2(y, x);
 						float angleDiff = angle / 6.28 - (0.5 - _Percentage);
 						if (angleDiff >= 0) {
-							//col = lerp(_Color, _Shadow, (1 - angleDiff));
+							//Show fill amount
+							
+							//Base colour
 							col = _Color;
+							
+							//Make leading edge glow for when bar is filling
 							float glow = lerp(0, _Glow*2, max(1-angleDiff*10,0 ));
 							col = lerp(col, float4(1, 1, 1, 1), glow);
+							
+							//Apply a shadow to the bar for depth
 							col = lerp(col, _Shadow, pow(1-(sqR-innerSqR) / (0.25- innerSqR),4));
+							
+							//Make the bar flash for when the bar is full
+							col += float4(1, 1, 1, 1)*_Flash;
 						}
 						else {
+							//Show empty amount
 							col = _BackgroundColor;
 						}
 						if (sqR < innerSqR ) {
-							
+							//Antialiasing for the inside edge of bar
 							col = lerp(col, _BackgroundColor, (innerSqR-sqR)/sqBorder);
 						}
 						else if (sqR > 0.25 - sqBorder) {
-
+							//Antialiasing for the outside edge of bar
 							col = lerp(col, _BackgroundColor, 1-(0.25-sqR) / sqBorder);
 						}
 					}

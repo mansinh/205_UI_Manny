@@ -9,7 +9,7 @@ public class OptionsMenu :PopupMenu
     [SerializeField] Toggle muteToggle;
     [SerializeField] SoundManager soundManager;
 
-   
+    //Set UI elements to match saved option settings
     public void Init()
     {
         musicSlider.value = soundManager.getMusicVolume();

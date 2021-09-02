@@ -2,6 +2,9 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+//*****************************************************************************************************
+// Manages player input and controls player character movement
+//*****************************************************************************************************
 public class PlayerController : MonoBehaviour
 {
     Animator animController;
@@ -100,7 +103,7 @@ public class PlayerController : MonoBehaviour
         // Read direction from player input (WASD/directional keys/left joystick)
         direction = new Vector3(Input.GetAxis("Horizontal"), 0, Input.GetAxis("Vertical"));
 
-        // Walk if left shift is held
+        // Walk if left shift is held or when the player has no stamina left
         isWalking = !Input.GetKey(KeyCode.LeftShift) || character.staminaBar.currentValue <= 0;
 
         if (direction.sqrMagnitude > 0)
@@ -112,6 +115,7 @@ public class PlayerController : MonoBehaviour
             }
             else
             {
+                // Use up stamina when running
                 character.UseStamina(-runCost);
                 targetSpeed = runningSpeed;
             }
@@ -139,7 +143,7 @@ public class PlayerController : MonoBehaviour
             facingDirection = Vector3.RotateTowards(facingDirection, Vector3.forward, 5 * Time.deltaTime, 0.1f);
             
         }
-
+        // Regain stamina when not moving
         if (speed == 0) {
             character.RegainStamina();
         }

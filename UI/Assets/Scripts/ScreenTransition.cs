@@ -5,6 +5,9 @@ using UnityEngine.UI;
 using UnityEngine.Rendering;
 using UnityEngine.Rendering.Universal;
 
+//*****************************************************************************************************
+// Screen transition animation for changing between scenes or menus
+//*****************************************************************************************************
 public class ScreenTransition : MonoBehaviour
 {
     [SerializeField] Image fadeToColorImage;
@@ -17,20 +20,18 @@ public class ScreenTransition : MonoBehaviour
     VolumeProfile profile;
     ColorAdjustments colorAdjustments;
 
-    // Start is called before the first frame update
+    //Start is called before the first frame update
     void Start()
     {
         if(volume) profile = volume.profile;
-        if(profile)profile.TryGet(out colorAdjustments);
-        
-        
+        if(profile)profile.TryGet(out colorAdjustments);      
     }
 
+    //Initialize overlay colour and game world saturation values and start fade in
     public void StartFadeIn() {
         fadeToColorImage.color = fadeToColor;
         if (colorAdjustments) colorAdjustments.saturation.value = saturationOut;
-        StartCoroutine(DelayedStart(startDelay));
-        
+        StartCoroutine(DelayedStart(startDelay));     
     }
 
     public void FadeIn()
@@ -49,6 +50,7 @@ public class ScreenTransition : MonoBehaviour
         FadeIn();
     }
 
+    //Fade UI object to a color and apply saturation changes to the game world
     IEnumerator FadeOutCoroutine()
     {
         fadeToColorImage.enabled = true;
@@ -63,6 +65,7 @@ public class ScreenTransition : MonoBehaviour
         
     }
 
+    //Fade UI object to clear and apply saturation changes to the game world
     IEnumerator FadeInCoroutine()
     {
         for (float i = 0; i <= transitionSpeed; i += 0.01f)

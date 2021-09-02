@@ -110,7 +110,7 @@ Material:
     - _Metallic: 0
     - _OcclusionStrength: 1
     - _Parallax: 0.005
-    - _Percentage: 0.3
+    - _Percentage: 0.7
     - _QueueOffset: 0
     - _Radius: 0.44
     - _ReceiveShadows: 1
@@ -124,10 +124,10 @@ Material:
     m_Colors:
     - _BackgroundColor: {r: 0, g: 0, b: 0, a: 1}
     - _BaseColor: {r: 1, g: 1, b: 1, a: 1}
-    - _Color: {r: 1, g: 0.7777778, b: 0, a: 1}
+    - _Color: {r: 1, g: 0.94724435, b: 0.390566, a: 1}
     - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
     - _MaxColor: {r: 1, g: 0.8745099, b: 0, a: 1}
     - _MinColor: {r: 1, g: 0.8733625, b: 0, a: 1}
-    - _Shadow: {r: 0.6320754, g: 0.494927, b: 0, a: 1}
+    - _Shadow: {r: 0.90588236, g: 0.7468928, b: 0.32549024, a: 1}
     - _SpecColor: {r: 0.2, g: 0.2, b: 0.2, a: 1}
   m_BuildTextureStacks: []

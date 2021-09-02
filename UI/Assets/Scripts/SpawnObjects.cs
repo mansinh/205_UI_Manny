@@ -11,25 +11,23 @@ public class SpawnObjects : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        //Spawn cactus mines that damage the player
         for (int i = 0; i < mineCount; i++) {
             Respawn(Instantiate(mine).transform);          
         }
+
+        //Spawn love balloons that give the player experience points
         for (int i = 0; i < expCount; i++)
         {
             Respawn(Instantiate(exp).transform);
         }
+
+        //Spawn med packs that restore the players health
         for (int i = 0; i < healthCount; i++)
         {            
             Respawn(Instantiate(health).transform);
         }
     }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
-
     void Respawn(Transform spawned)
     {
         spawned.position = character.transform.position + new Vector3(Random.value - 0.5f, 0, Random.value - 0.5f)*spawnRadius;

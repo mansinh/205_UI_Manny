@@ -2,6 +2,9 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+//*****************************************************************************************************
+// Controls the state of the character
+//*****************************************************************************************************
 public class CharacterState : MonoBehaviour
 {
     [SerializeField] Transform bargroup;
@@ -14,25 +17,21 @@ public class CharacterState : MonoBehaviour
     [SerializeField] float maxStamina, maxHealth, staminaRegen, healthRegen;
 
 
-    // Start is called before the first frame update
+    // Initialize states
     void Start()
     {
-
         staminaBar.Init(maxStamina);
         healthBar.Init(maxHealth);
         experienceBar.Init(50f * Mathf.Pow(2f, level));
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-
-    }
 
     private void OnTriggerEnter(Collider other)
     {
+        
         if (other.CompareTag("Damaging"))
         {
+            //Reduce health and animate health bar when touching something damaging
             print("Ouch");
             StartCoroutine(Shake(bargroup, 0.5f, -30, healthBar.maxValue, 20));
             healthBar.ChangeValue(-30);
@@ -40,12 +39,14 @@ public class CharacterState : MonoBehaviour
         }
         if (other.CompareTag("Healing"))
         {
+            //Restore health and animate health bar when touching healing
             print("Whew");
             healthBar.ChangeValue(20);
             Destroy(other.gameObject);
         }
         if (other.CompareTag("Points"))
         {
+            //Fill experience points bar when touching points
             print("Yippee");
             float expChange = 30;
             totalExp += expChange;
@@ -53,15 +54,14 @@ public class CharacterState : MonoBehaviour
             Destroy(other.gameObject);
         }
     }
+    //Calculate the experience points needed to get to the next level
     public float GetNextLevelExp(int level)
     {
         this.level = level;
         return 50f * Mathf.Pow(2f, level);
     }
 
-
-
-
+    //Apply shake animation to character bar group in HUD when damaged
     IEnumerator Shake(Transform t, float shakeDuration, float change, float maxValue, float maxShakeAmp)
     {
         Vector3 position = t.position;
@@ -74,6 +74,7 @@ public class CharacterState : MonoBehaviour
         t.position = position;
     }
 
+    //Regain stamina when player is not moving
     public void RegainStamina() {
         if (staminaBar.currentValue < staminaBar.maxValue)
         {
@@ -81,6 +82,7 @@ public class CharacterState : MonoBehaviour
         }
     }
 
+    //Use stamina when the player is sprinting
     public void UseStamina(float cost) {
         staminaBar.ChangeValue(cost * Time.deltaTime);
     }
